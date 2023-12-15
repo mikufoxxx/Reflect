@@ -36,4 +36,61 @@ public static void main(String[] args) throws IOException {
 - java.lang.Class : 代表一个类
 - java.lang.reflect.Method : 代表类的方法
 - java.lang.reflect.Field : 代表类的成员变量
+    - getField不能得到私有属性
 - java.lang.reflect.Constructor : 代表类的构造方法
+
+## 获取Class对象的六种方式
+
+```Java
+public static void main() throws ClassNotFoundException {
+    //1. Class.forName
+    String classAllPath = "com.fox.Cat";
+    Class cls1 = Class.forName(classAllPath);
+
+    //2. 类名.class 一般用于参数传递
+    Class cls2 = Cat.class;
+
+    //3. 对象.getClass() 一般用于有对象实例的情况下
+    Cat cat = new Cat();
+    Class cls3 = cat.getClass();
+
+    //4. 通过类加载器【四种】来获取到类的Class对象
+    //（1） 先得到类加载器
+    ClassLoader classLoader = cat.getClass().getClassLoader();
+    //（2）通过类加载器得到Class对象
+    Class<?> cls4 = classLoader.loadClass(classAllPath);
+
+    //5. 基本数据类型按如下方式得到Class类对象
+    Class<Integer> integerClass = int.class;
+    Class<Character> characterClass = char.class;
+
+    //6. 基本数据类型对应的包装类，可以通过.TYPE 得到Class类对象
+    Class<Integer> type = Integer.TYPE;
+}
+```
+
+
+
+## 通过反射创建对象
+
+- 方式1：调用类中的public修饰的无参构造器
+
+    - ```java
+    ConObject o = cls1.newInstance();
+    ```
+
+- 方式2：调用类中的指定构造器
+
+    - 通过public的有参构造器创建实例
+
+        - ```Java
+      Constructor constructor = cls1.getConstructor(String.class);
+      ConObject fox = constructor.newInstance("fox");
+      ```
+
+    - 通过非public的有参构造器创建实例
+
+        - ```Java
+      Constructor cons = cls1.getDeclaredConstructor(String.class);
+      ConObject fox2 = cons.newInstance("fox2");
+      ```
