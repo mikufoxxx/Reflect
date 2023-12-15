@@ -75,7 +75,7 @@ public static void main() throws ClassNotFoundException {
 
 - 方式1：调用类中的public修饰的无参构造器
 
-    - ```java
+  ```java
     ConObject o = cls1.newInstance();
     ```
 
@@ -83,14 +83,14 @@ public static void main() throws ClassNotFoundException {
 
     - 通过public的有参构造器创建实例
 
-        - ```Java
+      ```Java
       Constructor constructor = cls1.getConstructor(String.class);
       ConObject fox = constructor.newInstance("fox");
       ```
 
     - 通过非public的有参构造器创建实例
 
-        - ```Java
+      ```Java
       Constructor cons = cls1.getDeclaredConstructor(String.class);
       ConObject fox2 = cons.newInstance("fox2");
       ```
